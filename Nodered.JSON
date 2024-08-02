@@ -1,0 +1,689 @@
+[
+    {
+        "id": "9b395a4f05a308d8",
+        "type": "tab",
+        "label": "Flow 9",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "4ef1d9a2f9079fe8",
+        "type": "ui_gauge",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "group": "03e29dc06fca796e",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "gauge",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": 10,
+        "colors": [
+            "#00b500",
+            "#e6e600",
+            "#ca3838"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "diff": false,
+        "className": "",
+        "x": 850,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "3bd3d17e5604531f",
+        "type": "inject",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "5ebc51875bf00c35"
+            ]
+        ]
+    },
+    {
+        "id": "29f9ff59a2509a52",
+        "type": "random",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "low": 1,
+        "high": 10,
+        "inte": "true",
+        "property": "payload",
+        "x": 500,
+        "y": 100,
+        "wires": [
+            [
+                "4ef1d9a2f9079fe8",
+                "72c7e51c5ef5a809",
+                "089f7d960ab2cbca"
+            ]
+        ]
+    },
+    {
+        "id": "57842c2011e3338d",
+        "type": "ui_switch",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "label": "switch",
+        "tooltip": "",
+        "group": "03e29dc06fca796e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 90,
+        "y": 40,
+        "wires": [
+            [
+                "4eae603e4a4ee11d"
+            ]
+        ]
+    },
+    {
+        "id": "4eae603e4a4ee11d",
+        "type": "change",
+        "z": "9b395a4f05a308d8",
+        "name": "Store Switch State",
+        "rules": [
+            {
+                "t": "set",
+                "p": "switchState",
+                "pt": "flow",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 250,
+        "y": 40,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "5ebc51875bf00c35",
+        "type": "function",
+        "z": "9b395a4f05a308d8",
+        "name": "Check Switch State",
+        "func": "var switchState = flow.get('switchState');\nif (switchState === true) {\n    return msg;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 100,
+        "wires": [
+            [
+                "29f9ff59a2509a52"
+            ]
+        ]
+    },
+    {
+        "id": "72c7e51c5ef5a809",
+        "type": "debug",
+        "z": "9b395a4f05a308d8",
+        "name": "debug 21",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 640,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "7ae80b4e1a4b86ab",
+        "type": "mqtt in",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "topic": "mod/data",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "mqtt-broker-id",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 380,
+        "y": 280,
+        "wires": [
+            [
+                "1ceda8c35c14f769"
+            ]
+        ]
+    },
+    {
+        "id": "6a3bd93563bc3543",
+        "type": "modbus-server",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "logEnabled": false,
+        "hostname": "localhost",
+        "serverPort": 10502,
+        "responseDelay": 100,
+        "delayUnit": "ms",
+        "coilsBufferSize": 10000,
+        "holdingBufferSize": 10000,
+        "inputBufferSize": 10000,
+        "discreteBufferSize": 10000,
+        "showErrors": false,
+        "x": 100,
+        "y": 400,
+        "wires": [
+            [],
+            [],
+            [],
+            [],
+            []
+        ]
+    },
+    {
+        "id": "089f7d960ab2cbca",
+        "type": "mqtt out",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "topic": "mod/data",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqtt-broker-id",
+        "x": 680,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "15c43146cb4607c4",
+        "type": "modbus-flex-write",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "server": "e7ea887b182a2ace",
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 730,
+        "y": 320,
+        "wires": [
+            [],
+            [
+                "a8d7d4266f1dfa79"
+            ]
+        ]
+    },
+    {
+        "id": "a8d7d4266f1dfa79",
+        "type": "debug",
+        "z": "9b395a4f05a308d8",
+        "name": "debug 22",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "1ceda8c35c14f769",
+        "type": "function",
+        "z": "9b395a4f05a308d8",
+        "name": "function 13",
+        "func": "msg.payload = {\n    value: msg.payload,\n    'fc': 6,\n    'unitid': 1,\n    'address': 0,\n    'quantity': 1,\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 300,
+        "wires": [
+            [
+                "15c43146cb4607c4"
+            ]
+        ]
+    },
+    {
+        "id": "8862426dcbdcd44e",
+        "type": "inject",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "5",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 580,
+        "wires": [
+            [
+                "1ae424851d45fb6b"
+            ]
+        ]
+    },
+    {
+        "id": "393ddb3d6540732a",
+        "type": "modbus-flex-getter",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "showStatusActivities": false,
+        "showErrors": false,
+        "showWarnings": true,
+        "logIOActivities": false,
+        "server": "modbusClient",
+        "useIOFile": false,
+        "ioFile": "",
+        "useIOForPayload": false,
+        "emptyMsgOnFail": false,
+        "keepMsgProperties": false,
+        "delayOnStart": false,
+        "startDelayTime": "",
+        "x": 610,
+        "y": 500,
+        "wires": [
+            [
+                "5d13eea0aea025d8"
+            ],
+            [
+                "b2a1c686dc147076",
+                "4abe283339d29ec2"
+            ]
+        ]
+    },
+    {
+        "id": "5f0a5a3eb0ad4bb5",
+        "type": "function",
+        "z": "9b395a4f05a308d8",
+        "name": "function 14",
+        "func": "msg.payload = {\n    'fc': 3,\n    'unitid': 1,\n    'address': 0,\n    'quantity': 1,\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 480,
+        "wires": [
+            [
+                "393ddb3d6540732a"
+            ]
+        ]
+    },
+    {
+        "id": "b2a1c686dc147076",
+        "type": "modbus-response",
+        "z": "9b395a4f05a308d8",
+        "name": "",
+        "registerShowMax": 20,
+        "x": 890,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "4abe283339d29ec2",
+        "type": "function",
+        "z": "9b395a4f05a308d8",
+        "name": "function 15",
+        "func": "// Check if the data array exists and has at least one element\nif (msg.payload.data && msg.payload.data.length > 0) {\n    // Extract the first value from the data array\n    msg.payload = msg.payload.data[0];\n} else {\n    // Handle the case where data is not present or empty\n    msg.payload = null;\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 770,
+        "y": 620,
+        "wires": [
+            [
+                "8824d1294d60f7a1",
+                "19fbac95a75b40c3"
+            ]
+        ]
+    },
+    {
+        "id": "8824d1294d60f7a1",
+        "type": "debug",
+        "z": "9b395a4f05a308d8",
+        "name": "debug 23",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "5d13eea0aea025d8",
+        "type": "debug",
+        "z": "9b395a4f05a308d8",
+        "name": "debug 24",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "19fbac95a75b40c3",
+        "type": "mqtt out",
+        "z": "9b395a4f05a308d8",
+        "name": "Publish to MQTT",
+        "topic": "modbus/data",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "mqtt-broker-id",
+        "x": 810,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "3832ab15cbb94b5d",
+        "type": "mqtt in",
+        "z": "9b395a4f05a308d8",
+        "name": "subscribed mqtt",
+        "topic": "modbus/data",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "mqtt-broker-id",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 300,
+        "y": 780,
+        "wires": [
+            [
+                "bebc3a6a6b7abedf",
+                "3c07bda2a6f0f597"
+            ]
+        ]
+    },
+    {
+        "id": "3c07bda2a6f0f597",
+        "type": "debug",
+        "z": "9b395a4f05a308d8",
+        "name": "debug 25",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "bebc3a6a6b7abedf",
+        "type": "function",
+        "z": "9b395a4f05a308d8",
+        "name": "function 16",
+        "func": "// Extract the value from the MQTT payload\nvar value = msg.payload;\n\n// Construct the SQL query\nvar sql = `insert into gauge values(${value},now())`;\n\n// Set up the message payload for the MySQL node\nmsg.topic = sql;\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 880,
+        "wires": [
+            [
+                "6dfb84285f9cd305"
+            ]
+        ]
+    },
+    {
+        "id": "cbd992318a13e4e1",
+        "type": "mysql",
+        "z": "9b395a4f05a308d8",
+        "mydb": "b1dd76ace0866b05",
+        "name": "",
+        "x": 840,
+        "y": 900,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "6dfb84285f9cd305",
+        "type": "function",
+        "z": "9b395a4f05a308d8",
+        "name": "function 17",
+        "func": "if (typeof msg.payload === 'number') {\n    return msg; // Only send the message if the payload is a number\n} else {\n    return null; // Discard the message if the payload is not a number\n}",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 880,
+        "wires": [
+            [
+                "cbd992318a13e4e1"
+            ]
+        ]
+    },
+    {
+        "id": "1ae424851d45fb6b",
+        "type": "function",
+        "z": "9b395a4f05a308d8",
+        "name": "Check Switch State",
+        "func": "var switchState = flow.get('switchState');\nif (switchState === true) {\n    return msg;\n} else {\n    return null;\n}",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 270,
+        "y": 540,
+        "wires": [
+            [
+                "5f0a5a3eb0ad4bb5"
+            ]
+        ]
+    },
+    {
+        "id": "03e29dc06fca796e",
+        "type": "ui_group",
+        "name": "level",
+        "tab": "709bf91a90a77028",
+        "order": 1,
+        "disp": true,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "mqtt-broker-id",
+        "type": "mqtt-broker",
+        "name": "MQTT Broker",
+        "broker": "192.168.116.2",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "e7ea887b182a2ace",
+        "type": "modbus-client",
+        "name": "",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": true,
+        "tcpHost": "localhost",
+        "tcpPort": "10502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB",
+        "serialType": "RTU-BUFFERD",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true,
+        "showErrors": false,
+        "showWarnings": true,
+        "showLogs": true
+    },
+    {
+        "id": "modbusClient",
+        "type": "modbus-client",
+        "name": "mod bus Server",
+        "clienttype": "tcp",
+        "bufferCommands": true,
+        "stateLogEnabled": false,
+        "queueLogEnabled": false,
+        "failureLogEnabled": false,
+        "tcpHost": "localhost",
+        "tcpPort": "10502",
+        "tcpType": "DEFAULT",
+        "serialPort": "/dev/ttyUSB0",
+        "serialType": "RTU-BUFFERED",
+        "serialBaudrate": "9600",
+        "serialDatabits": "8",
+        "serialStopbits": "1",
+        "serialParity": "none",
+        "serialConnectionDelay": "100",
+        "serialAsciiResponseStartDelimiter": "0x3A",
+        "unit_id": "1",
+        "commandDelay": "1",
+        "clientTimeout": "1000",
+        "reconnectOnTimeout": true,
+        "reconnectTimeout": "2000",
+        "parallelUnitIdsAllowed": true,
+        "showErrors": false,
+        "showWarnings": true,
+        "showLogs": true
+    },
+    {
+        "id": "b1dd76ace0866b05",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "127.0.0.1",
+        "port": "3306",
+        "db": "darshan",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "709bf91a90a77028",
+        "type": "ui_tab",
+        "name": "Home",
+        "icon": "dashboard",
+        "disabled": false,
+        "hidden": false
+    }
+]
